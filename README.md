@@ -1,70 +1,70 @@
-# Getting Started with Create React App
+# 📊 SAVRA Admin Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A full-stack, responsive analytics dashboard designed to monitor and visualize faculty academic content generation (lessons, quizzes, and assessments). 
 
-## Available Scripts
+## 🚀 Tech Stack
 
-In the project directory, you can run:
+* **Frontend:** React.js, Tailwind CSS, Recharts (Data Visualization), Axios
+* **Backend:** Python, Flask, Flask-PyMongo, Flask-CORS
+* **Database:** MongoDB
+* **Deployment:** Netlify (Frontend) / Render (Backend) / MongoDB Atlas (Database)
 
-### `npm start`
+## ✨ Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+* **High-Level Overview:** School-wide KPI tracking for total teachers, lessons, quizzes, and assessments.
+* **Weekly Trend Analysis:** Interactive area charts visualizing content creation over time.
+* **Deep-Dive Teacher Analytics:** Filterable views by teacher and grade level.
+* **Activity Log:** Detailed, chronological table of every piece of content created.
+* **Modular UI:** Built with DRY principles using reusable React components (e.g., `KpiCard`).
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## 🏗 Architecture Decisions
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1.  **Decoupled Client-Server Model:** The frontend (React) and backend (Flask) are completely separated. They communicate exclusively via a RESTful API. This allows either side to be swapped out, updated, or scaled independently.
+2.  **Utility-First CSS (Tailwind):** Chosen over traditional CSS/SCSS files to keep styling scoped to components, reducing the overall CSS payload and accelerating UI development.
+3.  **Client-Side Charting (Recharts):** Data visualizations are rendered on the client rather than generating static images on the server. This provides interactive tooltips and responsive resizing with minimal server overhead.
+4.  **Component Modularization:** Repeated UI elements (like KPI metrics) were abstracted into reusable functional components (`<KpiCard />`). This reduces code duplication and makes global UI updates instantaneous.
+5.  **Environment Variables:** Configured global Axios instances using `.env` variables to ensure smooth transitions between local development (`localhost`) and production deployments without hardcoding URLs.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 📈 Future Scalability Improvements
 
-### `npm run eject`
+As the school’s data grows, the following architectural upgrades should be implemented:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Database & Backend Optimization
+* **Database Indexing:** Add compound indexes in MongoDB on `Created_at`, `Grade`, and `Activity_type` to speed up query execution times as the collection size scales into the millions.
+* **MongoDB Aggregation Pipelines:** Currently, some data formatting happens in Python. Shifting calculations (like grouping by week or counting totals) directly into MongoDB Aggregation Pipelines will significantly reduce the memory footprint on the Flask server.
+* **API Caching (Redis):** Dashboard data is read-heavy and doesn't require real-time millisecond accuracy. Implementing a caching layer (like Redis) for the `/summary` and `/weekly` endpoints would drastically reduce database hits.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Frontend Enhancements
+* **Pagination / Virtualization:** The "Activity Log" table currently renders all filtered records. For teachers with thousands of records, implementing pagination or window virtualization (e.g., `react-window`) will keep the DOM lightweight and maintain 60fps scrolling.
+* **Global State Management:** If more pages and complex filters are added, migrating from prop-drilling to a lightweight state manager like Zustand or the React Context API will keep the component tree clean.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 💻 Local Setup Instructions
 
-## Learn More
+### Prerequisites
+* Node.js (v16+)
+* Python (3.8+)
+* MongoDB running locally on port 27017
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 1. Backend Setup
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # On Windows use: venv\Scripts\activate
+pip install -r requirements.txt
+python app.py
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+### 1. Frontend Setup
+cd frontend
+npm install
+# Create a .env file with VITE_API_URL=[http://127.0.0.1:5000](http://127.0.0.1:5000)
+npm run dev
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
