@@ -6,6 +6,12 @@
 .pnp.js
 .env
 
+
+.env
+__pycache__/
+
+db.py
+
 # testing
 /coverage
 

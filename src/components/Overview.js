@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import WeeklyChart from "./WeeklyChart.js";
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 // 1. Created a reusable KPI Card Component
 const KpiCard = ({ title, value, colorClass }) => {
   return (
@@ -18,13 +20,15 @@ const KpiCard = ({ title, value, colorClass }) => {
   );
 };
 
+
+
 export default function Overview() {
   const [summary, setSummary] = useState([]);
   const [sortBy, setSortBy] = useState("lessons");
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:5000/summary")
+      .get(`${API_BASE_URL}/summary`)
       .then((res) => setSummary(res.data))
       .catch((err) => console.error(err));
   }, []);

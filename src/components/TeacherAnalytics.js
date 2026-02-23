@@ -11,6 +11,9 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 // 1. Reusable KPI Card Component
 const KpiCard = ({ title, value, colorClass }) => {
   return (
@@ -25,6 +28,9 @@ const KpiCard = ({ title, value, colorClass }) => {
   );
 };
 
+
+
+
 export default function TeacherAnalytics() {
   const [teachers, setTeachers] = useState([]);
   const [selectedTeacher, setSelectedTeacher] = useState("");
@@ -33,7 +39,7 @@ export default function TeacherAnalytics() {
 
   // Fetch the list of teachers first
   useEffect(() => {
-    axios.get("http://127.0.0.1:5000/summary").then((res) => {
+    axios.get(`${API_BASE_URL}/summary`).then((res) => {
       setTeachers(res.data.map((t) => t._id));
       if (res.data.length > 0) {
         setSelectedTeacher(res.data[0]._id); // default to first teacher
@@ -45,7 +51,7 @@ export default function TeacherAnalytics() {
   useEffect(() => {
     if (selectedTeacher) {
       axios
-        .get(`http://127.0.0.1:5000/teacher/${selectedTeacher}`)
+        .get(`${API_BASE_URL}/teacher/${selectedTeacher}`)
         .then((res) => {
           setTeacherData(res.data);
           setSelectedGrade("All"); // Reset grade filter on teacher change

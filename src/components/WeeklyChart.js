@@ -10,6 +10,8 @@ import {
 } from "recharts";
 import axios from "axios";
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 export default function WeeklyChart() {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState("all"); // 'all', 'lessons', 'quizzes', 'assessments'
@@ -30,9 +32,10 @@ export default function WeeklyChart() {
 
   const chartColor = getChartColor();
 
+  
   useEffect(() => {
     // Pass the filter as a query parameter to Flask
-    axios.get(`http://127.0.0.1:5000/weekly?type=${filter}`).then((res) => {
+    axios.get(`${API_BASE_URL}/weekly?type=${filter}`).then((res) => {
       const formattedData = res.data.map((d) => {
         const parts = d._id.split("-");
         let weekLabel = d._id;
